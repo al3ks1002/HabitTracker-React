@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, TextInput, View, Linking} from 'react-native';
 import {NavigationActions} from "react-navigation";
+import {HabitStorage} from "../storage/HabitStorage";
 
 export default class EditHabit extends React.Component {
     constructor(props) {
@@ -10,46 +11,69 @@ export default class EditHabit extends React.Component {
             id: -1,
             title: '',
             description: '',
+            dates: []
         };
 
-        if (this.props.navigation.state.params.id !== undefined) {
+        if (this.props.navigation.state.params !== undefined) {
             let habit = this.props.navigation.state.params;
             this.state.id = habit.id;
             this.state.title = habit.title;
             this.state.description = habit.description;
+            this.state.dates = habit.dates;
         }
     }
 
-    editHabit() {
+    async editHabit() {
         let habit = this.state;
-        for (let i = 0; i < global.habits.length; i++) {
-            if (global.habits[i].id === habit.id) {
-                global.habits[i] = habit;
-                let body = "Habit updated!" + '\n'
-                    + 'Title: ' + habit.title + '\n'
-                    + 'Description: ' + habit.description + '\n';
-                Linking.openURL(
-                    "mailto:al3ks1002@gmail.com" +
-                    "?subject=" + "Habit updated!" +
-                    "&body=" + body
-                );
-            }
+
+        if (habit.id === -1) {
+            // add habit
+            await HabitStorage.addHabit(habit.title, habit.description);
+        } else {
+            // edit habit
+            await HabitStorage.editHabit(habit.id, habit);
+
+            // send mail
+            let body = "Habit updated!" + '\n'
+                + 'Title: ' + habit.title + '\n'
+                + 'Description: ' + habit.description + '\n';
+            Linking.openURL(
+                "mailto:al3ks1002@gmail.com" +
+                "?subject=" + "Habit updated!" +
+                "&body=" + body
+            );
         }
     }
 
-    reset(){
+    async deleteHabit() {
+        await HabitStorage.deleteHabit(this.state.id);
+    }
+
+    reset() {
         return this.props
             .navigation
             .dispatch(NavigationActions.reset(
                 {
                     index: 0,
                     actions: [
-                        NavigationActions.navigate({ routeName: 'Home'})
+                        NavigationActions.navigate({routeName: 'Home'})
                     ]
                 }));
     }
 
     render() {
+        let deleteButton = null;
+        if (this.state.id !== -1) {
+            deleteButton =
+                <Button
+                    title="Delete"
+                    onPress={() => {
+                        this.deleteHabit().then(() => {
+                            this.reset();
+                        });
+                    }}
+                />;
+        }
         return (
             <View style={styles.container}>
                 <View>
@@ -68,10 +92,12 @@ export default class EditHabit extends React.Component {
                     <Button
                         title="Save changes"
                         onPress={() => {
-                            this.editHabit();
-                            this.reset();
+                            this.editHabit().then(() => {
+                                this.reset();
+                            });
                         }}
                     />
+                    {deleteButton}
                 </View>
             </View>
         );

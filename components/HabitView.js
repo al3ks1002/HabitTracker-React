@@ -22,6 +22,13 @@ export default class HabitView extends React.Component {
                         this.props.navigation.navigate('EditHabit', habit);
                     }}
                 />
+                <Text/>
+                <Button
+                    title="View"
+                    onPress={() => {
+                        this.props.navigation.navigate('ViewHabit', habit);
+                    }}
+                />
             </View>
         );
     }

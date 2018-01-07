@@ -2,30 +2,25 @@ import React from 'react';
 import HabitList from "./components/HabitList";
 import EditHabit from "./components/EditHabit";
 import {StackNavigator} from 'react-navigation';
-import {View} from "react-native";
-
-global.habits = [
-    {
-        id: 1,
-        title: 'habit1',
-        description: 'habit1 description',
-    },
-    {
-        id: 2,
-        title: 'habit2',
-        description: 'habit2 description',
-    },
-];
+import {Button, View, StyleSheet, Text} from "react-native";
+import ViewHabit from "./components/ViewHabit";
 
 const HabitListScreen = ({navigation}) => (
     <View>
         <HabitList navigation={navigation}/>
+        <Button
+            title="Add habit"
+            onPress={() => {
+                navigation.navigate('EditHabit');
+            }}
+        />
     </View>
 );
 
 export const HabitApp = StackNavigator({
     Home: {screen: HabitListScreen},
     EditHabit: {screen: EditHabit, path: 'EditHabit/:habit'},
+    ViewHabit: {screen: ViewHabit, path: 'ViewHabit/:habit'},
 });
 
 export default class App extends React.Component {
@@ -33,3 +28,11 @@ export default class App extends React.Component {
         return <HabitApp/>;
     }
 }
+
+const styles = StyleSheet.create({
+    actionButtonIcon: {
+        fontSize: 20,
+        height: 22,
+        color: 'white',
+    },
+});
