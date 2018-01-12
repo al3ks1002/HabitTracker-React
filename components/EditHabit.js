@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, TextInput, View, Linking} from 'react-native';
 import {NavigationActions} from "react-navigation";
-import {HabitStorage} from "../storage/HabitStorage";
+import {HabitStorage} from "../controller/HabitController";
 
 export default class EditHabit extends React.Component {
     constructor(props) {

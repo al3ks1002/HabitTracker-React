@@ -4,7 +4,7 @@ import {NavigationActions} from "react-navigation";
 import DatePicker from 'react-native-datepicker'
 import {Bar} from 'react-native-pathjs-charts';
 
-import {HabitStorage} from "../storage/HabitStorage";
+import {HabitStorage} from "../controller/HabitController";
 
 export default class ViewHabit extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ export default class ViewHabit extends React.Component {
                 description: '',
                 dates: [],
             },
-            currentDate: "2018-01-08",
+            currentDate: "2018-01-15",
             chartData: [],
         };
 

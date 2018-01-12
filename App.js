@@ -18,6 +18,7 @@ const HabitListScreen = ({navigation}) => (
 );
 
 export const HabitApp = StackNavigator({
+    Login: {screen: LoginScreen},
     Home: {screen: HabitListScreen},
     EditHabit: {screen: EditHabit, path: 'EditHabit/:habit'},
     ViewHabit: {screen: ViewHabit, path: 'ViewHabit/:habit'},

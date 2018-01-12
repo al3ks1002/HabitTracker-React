@@ -1,7 +1,7 @@
 import React from 'react';
 import {ListView, Text, View} from 'react-native';
 import HabitView from "./HabitView";
-import {HabitStorage} from "../storage/HabitStorage";
+import {HabitStorage} from "../controller/HabitController";
 
 export default class HabitList extends React.Component {
     constructor(props) {
