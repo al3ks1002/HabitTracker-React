@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, StyleSheet, TextInput, View, Linking} from 'react-native';
 import {NavigationActions} from "react-navigation";
-import {HabitStorage} from "../controller/HabitController";
+import {HabitController} from "../controller/HabitController";
 
 export default class EditHabit extends React.Component {
     constructor(props) {
@@ -11,7 +11,7 @@ export default class EditHabit extends React.Component {
             id: -1,
             title: '',
             description: '',
-            dates: []
+            email: ''
         };
 
         if (this.props.navigation.state.params !== undefined) {
@@ -19,7 +19,7 @@ export default class EditHabit extends React.Component {
             this.state.id = habit.id;
             this.state.title = habit.title;
             this.state.description = habit.description;
-            this.state.dates = habit.dates;
+            this.state.email = habit.email;
         }
     }
 
@@ -28,10 +28,10 @@ export default class EditHabit extends React.Component {
 
         if (habit.id === -1) {
             // add habit
-            await HabitStorage.addHabit(habit.title, habit.description);
+            await HabitController.getInstance().addHabit(habit.title, habit.description);
         } else {
             // edit habit
-            await HabitStorage.editHabit(habit.id, habit);
+            await HabitController.getInstance().editHabit(habit);
 
             // send mail
             let body = "Habit updated!" + '\n'
@@ -46,19 +46,8 @@ export default class EditHabit extends React.Component {
     }
 
     async deleteHabit() {
-        await HabitStorage.deleteHabit(this.state.id);
-    }
-
-    reset() {
-        return this.props
-            .navigation
-            .dispatch(NavigationActions.reset(
-                {
-                    index: 0,
-                    actions: [
-                        NavigationActions.navigate({routeName: 'Home'})
-                    ]
-                }));
+        let habit = this.state;
+        await HabitController.getInstance().deleteHabit(habit);
     }
 
     render() {
@@ -69,7 +58,7 @@ export default class EditHabit extends React.Component {
                     title="Delete"
                     onPress={() => {
                         this.deleteHabit().then(() => {
-                            this.reset();
+                            this.props.navigation.goBack();
                         });
                     }}
                 />;
@@ -93,7 +82,7 @@ export default class EditHabit extends React.Component {
                         title="Save changes"
                         onPress={() => {
                             this.editHabit().then(() => {
-                                this.reset();
+                                this.props.navigation.goBack();
                             });
                         }}
                     />

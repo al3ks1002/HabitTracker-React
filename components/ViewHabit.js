@@ -1,23 +1,24 @@
 import React from 'react';
 import {Button, StyleSheet, View, Text} from 'react-native';
-import {NavigationActions} from "react-navigation";
 import DatePicker from 'react-native-datepicker'
 import {Bar} from 'react-native-pathjs-charts';
 
-import {HabitStorage} from "../controller/HabitController";
+import {HabitController} from "../controller/HabitController";
 
 export default class ViewHabit extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            loaded: false,
             habit: {
                 id: -1,
                 title: '',
                 description: '',
-                dates: [],
+                email: ''
             },
             currentDate: "2018-01-15",
+            dates: [],
             chartData: [],
         };
 
@@ -26,30 +27,46 @@ export default class ViewHabit extends React.Component {
             this.state.habit.id = habit.id;
             this.state.habit.title = habit.title;
             this.state.habit.description = habit.description;
-            this.state.habit.dates = habit.dates.sort((a, b) => new Date(a) - new Date(b));
+            this.state.habit.email = habit.email;
 
             this.updateChart();
         }
     }
 
+
+    async componentDidMount() {
+        console.log(this.state.habit.id);
+        const dates = await HabitController.getInstance().getDates(this.state.habit.id);
+        const sortedDates = dates.sort((a, b) => new Date(a) - new Date(b));
+
+        this.setState({
+            dates: sortedDates
+        });
+        this.updateChart();
+
+        this.setState({
+            loaded: true
+        });
+    }
+
     async addDate() {
-        for (let date of this.state.habit.dates) {
+        for (let date of this.state.dates) {
             if (date === this.state.currentDate) {
                 return;
             }
         }
-        this.state.habit.dates.push(this.state.currentDate);
-        this.state.habit.dates = this.state.habit.dates.sort((a, b) => new Date(a) - new Date(b));
+        this.state.dates.push(this.state.currentDate);
+        this.state.dates = this.state.dates.sort((a, b) => new Date(a) - new Date(b));
         this.updateChart();
-        await HabitStorage.editHabit(this.state.habit.id, this.state.habit);
+        await HabitController.getInstance().addDate(this.state.habit.id, this.state.currentDate);
     }
 
     async deleteDate() {
-        let index = this.state.habit.dates.indexOf(this.state.currentDate);
+        let index = this.state.dates.indexOf(this.state.currentDate);
         if (index > -1) {
-            this.state.habit.dates.splice(index, 1);
+            this.state.dates.splice(index, 1);
             this.updateChart();
-            await HabitStorage.editHabit(this.state.habit.id, this.state.habit);
+            await HabitController.getInstance().deleteDate(this.state.habit.id, this.state.currentDate);
         }
     }
 
@@ -62,38 +79,26 @@ export default class ViewHabit extends React.Component {
     updateChart() {
         this.state.chartData = [];
 
-        if (this.state.habit.dates.length === 0) {
+        if (this.state.dates.length === 0) {
             return;
         }
 
-        this.state.chartData.push([{"v": 1, "name": this.state.habit.dates[0]}]);
-        for (let i = 0; i < this.state.habit.dates.length - 1; ++i) {
-            let first = new Date(this.state.habit.dates[i]);
+        this.state.chartData.push([{"v": 1, "name": this.state.dates[0]}]);
+        for (let i = 0; i < this.state.dates.length - 1; ++i) {
+            let first = new Date(this.state.dates[i]);
             first = this.addDays(first, 1);
-            let last = new Date(this.state.habit.dates[i + 1]);
+            let last = new Date(this.state.dates[i + 1]);
             while (first < last) {
                 this.state.chartData.push([{"v": 0, "name": ""}]);
                 first = this.addDays(first, 1);
             }
 
             let dateString = "";
-            if (i === this.state.habit.dates.length - 2 || i === this.state.habit.dates.length / 2 - 1) {
-                dateString = this.state.habit.dates[i + 1];
+            if (i === this.state.dates.length - 2 || i === this.state.dates.length / 2 - 1) {
+                dateString = this.state.dates[i + 1];
             }
             this.state.chartData.push([{"v": 1, "name": dateString}]);
         }
-    }
-
-    reset() {
-        return this.props
-            .navigation
-            .dispatch(NavigationActions.reset(
-                {
-                    index: 0,
-                    actions: [
-                        NavigationActions.navigate({routeName: 'Home'})
-                    ]
-                }));
     }
 
     render() {
@@ -144,7 +149,7 @@ export default class ViewHabit extends React.Component {
         };
 
         let chart = null;
-        if (this.state.chartData.length > 0) {
+        if (this.state.chartData.length > 0 && this.state.loaded) {
             chart =
                 <View>
                     <Bar data={this.state.chartData} options={options} accessorKey='v'/>
@@ -188,7 +193,7 @@ export default class ViewHabit extends React.Component {
                         title="Add date"
                         onPress={() => {
                             this.addDate().then(() => {
-                                this.reset();
+                                this.props.navigation.goBack();
                             });
                         }}
                     />
@@ -197,7 +202,7 @@ export default class ViewHabit extends React.Component {
                         title="Delete date"
                         onPress={() => {
                             this.deleteDate().then(() => {
-                                this.reset();
+                                this.props.navigation.goBack();
                             });
                         }}
                     />

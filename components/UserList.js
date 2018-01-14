@@ -1,53 +1,42 @@
 import React from 'react';
 import {ListView, StyleSheet, Text, View} from 'react-native';
-import HabitView from "./HabitView";
 import {HabitController} from "../controller/HabitController";
 
-export default class HabitList extends React.Component {
+export default class UserList extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             loaded: false,
-            habits: []
+            users: []
         };
     }
 
     async componentDidMount() {
-        HabitController.getInstance().attach(this.update.bind(this));
-        const habits = await HabitController.getInstance().getHabits(HabitController.getInstance().getUser().email);
+        const users = await HabitController.getInstance().getUsers();
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
         this.setState({
-            dataSource: ds.cloneWithRows(habits),
+            dataSource: ds.cloneWithRows(users),
             loaded: true,
-            habits: habits
+            users: users
         });
     }
 
-    async update() {
-        this.setState({loaded: false});
-        HabitController.getInstance().getHabitsFromAsyncStorage()
-            .then((habits) => {
-                const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
-                this.setState({
-                    dataSource: ds.cloneWithRows(habits),
-                    loaded: true,
-                    habits: habits
-                });
-            })
-    }
-
-    renderRow(habit) {
+    renderRow(user) {
+        let isAdminText = "is not admin.";
+        if(user.isAdmin) {
+            isAdminText = "is admin.";
+        }
         return (
             <View>
-                <HabitView habit={habit} navigation={this.props.navigation}/>
+                <Text>{user.email} {isAdminText}</Text>
             </View>
         );
     }
 
     render() {
         if (this.state.loaded) {
-            if (this.state.habits.length > 0) {
+            if (this.state.users.length > 0) {
                 return (
                     <View>
                         <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)}/>
@@ -56,7 +45,7 @@ export default class HabitList extends React.Component {
             } else {
                 return (
                     <View>
-                        <Text>No habits</Text>
+                        <Text>No Users</Text>
                     </View>
                 )
             }
@@ -67,4 +56,3 @@ export default class HabitList extends React.Component {
         }
     }
 }
-
