@@ -14,7 +14,6 @@ export default class HabitList extends React.Component {
     }
 
     async componentDidMount() {
-        HabitController.getInstance().attach(this.update.bind(this));
         const habits = await HabitController.getInstance().getHabits(HabitController.getInstance().getUser().email);
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1.id !== r2.id});
         this.setState({
@@ -22,6 +21,7 @@ export default class HabitList extends React.Component {
             loaded: true,
             habits: habits
         });
+        HabitController.getInstance().attach(this.update.bind(this));
     }
 
     async update() {

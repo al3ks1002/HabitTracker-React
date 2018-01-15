@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5c9dadbe-f79f-4d88-a584-8ddfd8415df5" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/components/UserList.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/App.js" afterPath="$PROJECT_DIR$/App.js" />
-      <change beforePath="$PROJECT_DIR$/components/EditHabit.js" afterPath="$PROJECT_DIR$/components/EditHabit.js" />
       <change beforePath="$PROJECT_DIR$/components/HabitList.js" afterPath="$PROJECT_DIR$/components/HabitList.js" />
-      <change beforePath="$PROJECT_DIR$/components/ViewHabit.js" afterPath="$PROJECT_DIR$/components/ViewHabit.js" />
-      <change beforePath="$PROJECT_DIR$/controller/HabitController.js" afterPath="$PROJECT_DIR$/controller/HabitController.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,7 +16,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HabitController.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HabitController.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controller/HabitController.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="126">
@@ -32,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HabitList.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="HabitList.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/components/HabitList.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="216">
-              <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
+            <state relative-caret-position="399">
+              <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -82,11 +76,11 @@
         <option value="$PROJECT_DIR$/storage/HabitStorage.js" />
         <option value="$PROJECT_DIR$/components/LoginScreen.js" />
         <option value="$PROJECT_DIR$/components/UserList.js" />
-        <option value="$PROJECT_DIR$/components/HabitList.js" />
         <option value="$PROJECT_DIR$/App.js" />
         <option value="$PROJECT_DIR$/components/EditHabit.js" />
         <option value="$PROJECT_DIR$/components/ViewHabit.js" />
         <option value="$PROJECT_DIR$/controller/HabitController.js" />
+        <option value="$PROJECT_DIR$/components/HabitList.js" />
       </list>
     </option>
   </component>
@@ -278,12 +272,12 @@
       <workItem from="1515763578746" duration="26000" />
       <workItem from="1515763616016" duration="10676000" />
       <workItem from="1515793858444" duration="16767000" />
-      <workItem from="1515957138473" duration="343000" />
+      <workItem from="1515957138473" duration="2255000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="76658000" />
+    <option name="totallyTimeSpent" value="78570000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -689,21 +683,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/components/HabitList.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="216">
-          <caret line="15" column="4" lean-forward="false" selection-start-line="15" selection-start-column="4" selection-end-line="15" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/controller/HabitController.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
           <caret line="247" column="17" lean-forward="false" selection-start-line="247" selection-start-column="17" selection-end-line="247" selection-end-column="17" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/components/HabitList.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="23" column="8" lean-forward="false" selection-start-line="23" selection-start-column="8" selection-end-line="23" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
